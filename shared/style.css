@@ -260,6 +260,49 @@ body.game-page {
 .touch-btn.pressed { background: rgba(255, 223, 160, 0.85); transform: translateY(3px); }
 .is-touch .touch-btn, .touch-btn.always { display: grid; }
 
+/* Level select grid (puzzle + platformer) */
+.levels-screen .panel { padding: 8px 30px 18px; }
+.levels-screen .panel h1 { font-size: 42px; }
+.levels-screen .panel p { font-size: 21px; margin: 2px 0 6px; }
+.levels-screen .controls-pic { margin: 2px 0 8px; }
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 120px);
+  gap: 10px;
+  justify-content: center;
+  margin: 4px 0 8px;
+}
+.level-grid.three { grid-template-columns: repeat(3, 170px); }
+.level-btn {
+  position: relative;
+  height: 76px;
+  border: none;
+  border-radius: 20px;
+  background: #FFE7C2;
+  box-shadow: 0 5px 0 #E8B979;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--brown);
+  line-height: 1;
+  padding: 2px 4px;
+  touch-action: manipulation;
+}
+.level-btn:hover { transform: translateY(-2px); }
+.level-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #E8B979; }
+.level-btn .num { font-size: 28px; font-weight: 800; }
+.level-btn .lv-stars { font-size: 16px; letter-spacing: 1px; }
+.level-btn .lv-stars i { font-style: normal; color: #E2CDB4; }
+.level-btn .lv-stars i.on { color: #FFB91F; }
+.level-btn .lv-name { font-size: 13px; font-weight: 700; margin-top: 3px; opacity: 0.8; white-space: nowrap; }
+.level-btn.locked { background: #EFE6DA; box-shadow: 0 5px 0 #D5C6B4; cursor: default; }
+.level-btn.locked .lock svg { width: 32px; height: 32px; }
+.level-btn.locked .lv-name { opacity: 0.45; }
+.level-grid.three .level-btn { height: 92px; }
+.level-grid.three .level-btn .lv-name { font-size: 16px; }
+
 /* Portrait phone hint */
 .rotate-hint {
   display: none;
