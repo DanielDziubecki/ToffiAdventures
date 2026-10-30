@@ -8,6 +8,51 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../shared/style.css">
+  <style>
+    /* Shop panel for "Kółko Toffi" (inside the 960×540 stage) */
+    .shop {
+      position: absolute;
+      left: 606px; top: 84px; width: 342px; bottom: 10px;
+      background: rgba(255, 250, 242, 0.97);
+      border-radius: 28px;
+      box-shadow: 0 6px 0 rgba(90, 58, 41, 0.2), inset 0 0 0 5px #D2C3FF;
+      padding: 6px 12px 8px;
+      display: flex; flex-direction: column;
+      z-index: 5;
+    }
+    .shop h2 { margin: 0 0 2px; text-align: center; font-size: 25px; color: var(--lav-d); line-height: 1.2; }
+    .shop-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; flex: 1; padding: 2px 2px 6px; }
+    .shop-item {
+      display: flex; align-items: center; gap: 8px;
+      text-align: left;
+      border: none; border-radius: 20px;
+      background: #F1ECF8;
+      box-shadow: 0 4px 0 #D8CDEB;
+      padding: 4px 10px 4px 5px;
+      cursor: pointer; color: var(--brown);
+      opacity: 0.75;
+      touch-action: manipulation;
+    }
+    .shop-item.can { background: #FFF1C9; box-shadow: 0 4px 0 #EAC56B; opacity: 1; animation: can-buy 1.6s ease-in-out infinite; }
+    .shop-item.maxed { background: #DDF5EC; box-shadow: 0 4px 0 #9ED8C3; opacity: 1; }
+    .shop-item:active { transform: translateY(3px); box-shadow: none; }
+    @keyframes can-buy { 50% { transform: scale(1.025); } }
+    .shop-icon { width: 52px; height: 52px; flex: 0 0 auto; }
+    .shop-info { flex: 1; min-width: 0; }
+    .shop-name { font-size: 19px; font-weight: 800; line-height: 1.1; }
+    .shop-desc { font-size: 13.5px; font-weight: 600; line-height: 1.15; opacity: 0.8; }
+    .shop-side { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex: 0 0 auto; }
+        .shop-dots { white-space: nowrap; }
+    .shop-dots i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #E2D8EE; margin-left: 3px; }
+    .shop-dots i.on { background: #8A6FE0; }
+    .shop-cost { font-size: 18px; font-weight: 800; display: inline-flex; align-items: center; gap: 2px; }
+    .shop-cost .bolt { width: 20px; height: 20px; }
+    .reset-link {
+      align-self: center; margin-top: 2px;
+      background: none; border: none; color: var(--brown-soft);
+      font-size: 14px; text-decoration: underline; cursor: pointer; opacity: 0.7;
+    }
+  </style>
 </head>
 <body class="game-page" style="background:#4B3D73">
   <div class="rotate-hint">Obróć urządzenie poziomo – będzie wygodniej!</div>
