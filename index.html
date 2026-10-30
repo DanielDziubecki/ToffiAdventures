@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gry z chomiczką Toffi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/style.css">
+</head>
+<body class="menu-page">
+  <div class="menu-wrap">
+    <header class="menu-top">
+      <div class="toffi-hello">
+        <canvas id="toffiHello" aria-hidden="true"></canvas>
+        <div class="hello-bubble">Cześć!</div>
+      </div>
+      <h1 class="menu-title">Gry z chomiczką Toffi</h1>
+      <div id="muteSlot"></div>
+    </header>
+    <p class="menu-sub">Wybierz grę i baw się razem z Toffi!</p>
+
+    <main class="cards">
+      <a class="card c1" href="games/wyscig/index.html">
+        <canvas data-icon="wyscig" aria-hidden="true"></canvas>
+        <h2>Wyścig po ziarenka</h2>
+        <p>Biegnij przez kuchnię, skacz i zbieraj ziarenka!</p>
+        <div class="best" data-best="wyscig"></div>
+      </a>
+      <a class="card c2" href="games/ucieczka/index.html">
+        <canvas data-icon="ucieczka" aria-hidden="true"></canvas>
+        <h2>Wielka ucieczka</h2>
+        <p>Pomóż Toffi wrócić do klatki przez pokoje!</p>
+        <div class="best" data-best="ucieczka"></div>
+      </a>
+      <a class="card c3" href="games/policzki/index.html">
+        <canvas data-icon="policzki" aria-hidden="true"></canvas>
+        <h2>Pełne policzki</h2>
+        <p>Łap pyszne jedzenie i zanieś je do gniazdka!</p>
+        <div class="best" data-best="policzki"></div>
+      </a>
+      <a class="card c4" href="games/kolko/index.html">
+        <canvas data-icon="kolko" aria-hidden="true"></canvas>
+        <h2>Kółko Toffi</h2>
+        <p>Klikaj kółko, zbieraj energię i urządź klatkę!</p>
+        <div class="best" data-best="kolko"></div>
+      </a>
+      <a class="card c5" href="games/ogrod/index.html">
+        <canvas data-icon="ogrod" aria-hidden="true"></canvas>
+        <h2>Przygoda w ogrodzie</h2>
+        <p>Skacz po ogrodzie i odnajdź zgubionych przyjaciół!</p>
+        <div class="best" data-best="ogrod"></div>
+      </a>
+    </main>
+
+    <footer class="menu-foot">
+      <span>Miłej zabawy!</span>
+    </footer>
+  </div>
+
+  <script src="shared/sound.js"></script>
+  <script src="shared/toffi.js"></script>
+  <script src="shared/common.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var UI = ToffiUI;
+
+    // Waving Toffi + mute button
+    Toffi.mount(document.getElementById('toffiHello'), { anim: 'wave', scale: 0.7 });
+    document.getElementById('muteSlot').appendChild(UI.muteButton());
+
+    // Clicking a card plays a small sound before leaving the page
+    document.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('click', function () { ToffiSound.play('pop'); });
+    });
+
+    // ---- Best scores / stars under each card ----
+    function starsText(n, max) { return '<span class="gold">★</span> ' + n + ' / ' + max; }
+    var bests = {
+      wyscig: function () {
+        var b = ToffiStore.get('wyscig.best', 0);
+        return b ? 'Rekord: ' + b + ' pkt' : 'Jeszcze nie grano';
+      },
+      ucieczka: function () {
+        var p = ToffiStore.get('ucieczka.progress', null);
+        if (!p || !p.stars) return 'Poziomy: 10';
+        var sum = p.stars.reduce(function (a, b) { return a + (b || 0); }, 0);
+        return starsText(sum, 30);
+      },
+      policzki: function () {
+        var b = ToffiStore.get('policzki.best', 0);
+        return b ? 'Rekord: ' + b + ' pkt' : 'Jeszcze nie grano';
+      },
+      kolko: function () {
+        var s = ToffiStore.get('kolko.save', null);
+        if (!s) return 'Jeszcze nie grano';
+        return 'Energia: ' + UI.formatNumber(s.total || 0);
+      },
+      ogrod: function () {
+        var p = ToffiStore.get('ogrod.progress', null);
+        if (!p || !p.stars) return 'Poziomy: 3';
+        var sum = p.stars.reduce(function (a, b) { return a + (b || 0); }, 0);
+        return starsText(sum, 9);
+      }
+    };
+    document.querySelectorAll('[data-best]').forEach(function (el) {
+      el.innerHTML = bests[el.dataset.best]();
+    });
+
+    // ---- Animated card icons, drawn with canvas shapes ----
+    var icons = {
+      // Night kitchen with seeds and running Toffi
+      wyscig: function (ctx, w, h, t) {
+        var g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#3B3F7A'); g.addColorStop(1, '#6A5C9E');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#FFF4C2';
+        ctx.beginPath(); ctx.arc(w - 46, 34, 18, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#3B3F7A';
+        ctx.beginPath(); ctx.arc(w - 38, 28, 16, 0, Math.PI * 2); ctx.fill();
+        for (var i = 0; i < 6; i++) UI.drawStar(ctx, (i * 53 + 20) % (w - 60), 18 + (i * 37) % 50, 3 + (i % 2), '#FFF4C2');
+        ctx.fillStyle = '#C98B5A'; ctx.fillRect(0, h - 34, w, 34);
+        ctx.fillStyle = '#B07446'; ctx.fillRect(0, h - 34, w, 6);
+        for (var s = 0; s < 4; s++) {
+          var sx = ((s * 70 - t * 90) % (w + 40) + w + 40) % (w + 40) - 20;
+          UI.drawSeed(ctx, sx, h - 70 - Math.sin(s * 2) * 14, 18, 0.3, s === 2);
+        }
+        Toffi.draw(ctx, w * 0.32, h - 30, 70, { anim: 'run', t: t });
+      },
+      // Top-down room with cage
+      ucieczka: function (ctx, w, h, t) {
+        ctx.fillStyle = '#F3DDB8'; ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = '#E2C597'; ctx.lineWidth = 2;
+        for (var x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        ctx.fillStyle = '#C08A5B'; UI.roundRect(ctx, 20, 20, 60, 50, 10); ctx.fill();
+        ctx.fillStyle = '#D9A777'; UI.roundRect(ctx, 26, 26, 48, 38, 8); ctx.fill();
+        // cage
+        var cx = w - 80, cy = 50;
+        ctx.fillStyle = '#FFE2EA'; UI.roundRect(ctx, cx - 40, cy - 34, 80, 80, 14); ctx.fill();
+        ctx.strokeStyle = '#B98CB0'; ctx.lineWidth = 3;
+        for (var b = -30; b <= 30; b += 12) { ctx.beginPath(); ctx.moveTo(cx + b, cy - 30); ctx.lineTo(cx + b, cy + 42); ctx.stroke(); }
+        UI.roundRect(ctx, cx - 40, cy - 34, 80, 80, 14); ctx.stroke();
+        // path dots
+        ctx.fillStyle = 'rgba(224,123,31,0.5)';
+        for (var d = 0; d < 6; d++) { ctx.beginPath(); ctx.arc(80 + d * 26, h - 40 - d * 9, 4, 0, Math.PI * 2); ctx.fill(); }
+        Toffi.draw(ctx, 60 + Math.sin(t * 2) * 6, h - 18, 64, { anim: 'run', t: t });
+      },
+      // Toffi with full cheeks and falling food
+      policzki: function (ctx, w, h, t) {
+        ctx.fillStyle = '#C9F2E3'; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#8FD9A8'; ctx.fillRect(0, h - 26, w, 26);
+        var y1 = ((t * 50) % (h + 40)) - 20, y2 = ((t * 50 + 70) % (h + 40)) - 20;
+        UI.drawCarrot(ctx, w * 0.2, y1, 34, Math.sin(t) * 0.5);
+        UI.drawApple(ctx, w * 0.8, y2, 34, 0);
+        UI.drawSeed(ctx, w * 0.68, ((t * 60 + 20) % (h + 40)) - 20, 18, t);
+        Toffi.draw(ctx, w / 2, h - 22, 96, { anim: 'eat', t: t, cheeks: 1, round: 0.4 });
+      },
+      // Hamster wheel with Toffi running inside
+      kolko: function (ctx, w, h, t) {
+        ctx.fillStyle = '#E6DCFF'; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#F6D7A8'; ctx.fillRect(0, h - 22, w, 22);
+        var cx = w / 2, cy = h / 2 - 2, r = 62;
+        ctx.fillStyle = '#9A86D8'; ctx.fillRect(cx - 6, cy, 12, h / 2);
+        ctx.strokeStyle = '#FF8FAB'; ctx.lineWidth = 9;
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+        ctx.lineWidth = 3; ctx.strokeStyle = '#F06D90';
+        for (var i = 0; i < 12; i++) {
+          var a = i / 12 * Math.PI * 2 + t * 3;
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); ctx.stroke();
+        }
+        ctx.fillStyle = '#FFD45C'; ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI * 2); ctx.fill();
+        Toffi.draw(ctx, cx, cy + r - 6, 62, { anim: 'run', t: t * 1.4 });
+        UI.drawStar(ctx, 40, 40, 12 + Math.sin(t * 4) * 2, '#FFD45C', t);
+        UI.drawStar(ctx, w - 40, 54, 9 + Math.cos(t * 4) * 2, '#FFD45C', -t);
+      },
+      // Garden with tree, berries and a friend
+      ogrod: function (ctx, w, h, t) {
+        var g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#BEE6FF'); g.addColorStop(1, '#E8F8FF');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#FFF'; ctx.beginPath(); ctx.arc(60 + t * 6 % 60, 30, 14, 0, 7); ctx.arc(80 + t * 6 % 60, 26, 18, 0, 7); ctx.arc(100 + t * 6 % 60, 32, 13, 0, 7); ctx.fill();
+        ctx.fillStyle = '#9B6A43'; ctx.fillRect(w - 70, 40, 22, h - 60);
+        ctx.fillStyle = '#6CC56F';
+        ctx.beginPath(); ctx.arc(w - 60, 40, 36, 0, 7); ctx.arc(w - 88, 58, 26, 0, 7); ctx.arc(w - 32, 60, 26, 0, 7); ctx.fill();
+        ctx.fillStyle = '#7ACB5A'; ctx.fillRect(0, h - 28, w, 28);
+        ctx.fillStyle = '#5FAF45'; ctx.fillRect(0, h - 28, w, 6);
+        UI.drawBerry(ctx, 120, h - 70 + Math.sin(t * 3) * 4, 22);
+        UI.drawBerry(ctx, 160, h - 80 + Math.sin(t * 3 + 1) * 4, 22);
+        Toffi.draw(ctx, 60, h - 24 - Math.abs(Math.sin(t * 2.5)) * 30, 60, { anim: Math.abs(Math.sin(t * 2.5)) > 0.15 ? 'jump' : 'idle', t: t });
+        Toffi.draw(ctx, w - 60, h - 26, 48, { anim: 'wave', t: t, palette: 'grey', facing: -1 });
+      }
+    };
+
+    var canvases = Array.prototype.slice.call(document.querySelectorAll('canvas[data-icon]'));
+    function frame(now) {
+      var t = now / 1000;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvases.forEach(function (c) {
+        var w = c.clientWidth, h = c.clientHeight;
+        if (!w || !h) return;
+        if (c.width !== Math.round(w * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+        var ctx = c.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.save();
+        UI.roundRect(ctx, 0, 0, w, h, 24); ctx.clip();
+        icons[c.dataset.icon](ctx, w, h, t);
+        ctx.restore();
+      });
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+  </script>
+</body>
+</html>
