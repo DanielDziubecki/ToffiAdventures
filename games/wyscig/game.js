@@ -212,7 +212,7 @@
   // ---------------------------------------------------------------------
   function hit() {
     var t = g.toffi;
-    if (t.invuln > 0) return;
+    if (t.invuln > 0 || state !== 'playing') return;
     g.lives--;
     t.hurt = 0.5;
     t.invuln = CONFIG.invulnerableTime;

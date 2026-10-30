@@ -327,15 +327,19 @@ body.game-page {
 /* ----------------------------------------------------------------------
    Main menu
    ---------------------------------------------------------------------- */
-body.menu-page {
-  min-height: 100%;
+body.menu-page { min-height: 100%; background: #FFF3DC; }
+/* fixed decorative background layer (works on iOS, unlike background-attachment: fixed) */
+body.menu-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background:
     radial-gradient(circle at 12% 18%, rgba(255, 210, 150, 0.55) 0 90px, transparent 91px),
     radial-gradient(circle at 88% 12%, rgba(255, 180, 200, 0.45) 0 70px, transparent 71px),
     radial-gradient(circle at 80% 85%, rgba(170, 220, 255, 0.45) 0 110px, transparent 111px),
     radial-gradient(circle at 8% 90%, rgba(180, 240, 210, 0.5) 0 80px, transparent 81px),
     linear-gradient(#FFF3DC, #FFE9D6);
-  background-attachment: fixed;
 }
 
 .menu-wrap { max-width: 1180px; margin: 0 auto; padding: 14px 18px 32px; }

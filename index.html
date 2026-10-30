@@ -81,7 +81,7 @@
     var bests = {
       wyscig: function () {
         var b = ToffiStore.get('wyscig.best', 0);
-        return b ? 'Rekord: ' + b + ' pkt' : 'Jeszcze nie grano';
+        return b ? 'Rekord: ' + b + ' ' + UI.plural(b, 'ziarenko', 'ziarenka', 'ziarenek') : 'Jeszcze nie grano';
       },
       ucieczka: function () {
         var p = ToffiStore.get('ucieczka.progress', null);
