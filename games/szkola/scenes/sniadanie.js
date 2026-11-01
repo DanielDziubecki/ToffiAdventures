@@ -209,5 +209,6 @@
     S.otherSpeech.draw(ctx, 540, 252, { size: 22 });
   };
 
+  sc.debug = function () { return st; };   // for testing from the console
   S.register(sc);
 })();

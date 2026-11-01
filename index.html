@@ -52,6 +52,12 @@
         <p>Skacz po ogrodzie i odnajdź zgubionych przyjaciół!</p>
         <div class="best" data-best="ogrod"></div>
       </a>
+      <a class="card c6" href="games/szkola/index.html">
+        <canvas data-icon="szkola" aria-hidden="true"></canvas>
+        <h2>Toffi idzie do szkoły</h2>
+        <p>Śniadanie, rower z mamą, lekcje i przerwa!</p>
+        <div class="best" data-best="szkola"></div>
+      </a>
     </main>
 
     <footer class="menu-foot">
@@ -97,6 +103,11 @@
         var s = ToffiStore.get('kolko.save', null);
         if (!s) return 'Jeszcze nie grano';
         return 'Energia: ' + UI.formatNumber(s.total || 0);
+      },
+      szkola: function () {
+        var p = ToffiStore.get('szkola.progress', null);
+        var n = p && p.stickers ? Object.keys(p.stickers).length : 0;
+        return n ? '<span class="gold">★</span> Naklejki: ' + n + ' / 6' : 'Naklejki: 0 / 6';
       },
       ogrod: function () {
         var p = ToffiStore.get('ogrod.progress', null);
@@ -174,6 +185,24 @@
         Toffi.draw(ctx, cx, cy + r - 6, 62, { anim: 'run', t: t * 1.4 });
         UI.drawStar(ctx, 40, 40, 12 + Math.sin(t * 4) * 2, '#FFD45C', t);
         UI.drawStar(ctx, w - 40, 54, 9 + Math.cos(t * 4) * 2, '#FFD45C', -t);
+      },
+      // School building, Toffi with her school bag
+      szkola: function (ctx, w, h, t) {
+        var g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#FFD9E6'); g.addColorStop(1, '#FFF4E0');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#FFD9A8'; ctx.fillRect(w - 150, 50, 130, 90);
+        ctx.fillStyle = '#E07B5F';
+        ctx.beginPath(); ctx.moveTo(w - 162, 54); ctx.lineTo(w - 85, 16); ctx.lineTo(w - 8, 54); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#7DBEFF'; UI.roundRect(ctx, w - 128, 60, 86, 20, 6); ctx.fill();
+        UI.text(ctx, 'SZKOŁA', w - 85, 71, { size: 13, color: '#FFFFFF', align: 'center' });
+        ctx.fillStyle = '#A9744F'; ctx.fillRect(w - 98, 100, 26, 40);
+        ctx.fillStyle = '#BFE6FF'; ctx.fillRect(w - 140, 92, 22, 20); ctx.fillRect(w - 52, 92, 22, 20);
+        ctx.fillStyle = '#E8A0A0'; ctx.fillRect(0, h - 22, w, 22);
+        ctx.fillStyle = '#B49CFF'; UI.roundRect(ctx, 34, h - 92, 36, 44, 10); ctx.fill();
+        Toffi.draw(ctx, 80 + Math.sin(t * 2) * 4, h - 18, 74, { anim: 'run', t: t, hat: 'bow', hatColor: '#7DBEFF' });
+        UI.drawStar(ctx, 160, 34, 9 + Math.sin(t * 3) * 2, '#FFC93C', t);
+        ctx.fillStyle = '#FFE066'; ctx.beginPath(); ctx.arc(30, 28, 16, 0, 7); ctx.fill();
       },
       // Garden with tree, berries and a friend
       ogrod: function (ctx, w, h, t) {

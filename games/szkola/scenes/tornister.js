@@ -195,5 +195,6 @@
     S.toffiSpeech.draw(ctx, 700, 400, { size: 22 });
   };
 
+  sc.debug = function () { return st; };   // for testing from the console
   S.register(sc);
 })();

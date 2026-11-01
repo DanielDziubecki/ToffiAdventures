@@ -113,7 +113,9 @@
     if (dayMode && last) progress.days = (progress.days || 0) + 1;
     ToffiStore.set('szkola.progress', progress);
     Sound.play('win');
+    var scene = current;
     setTimeout(function () {
+      if (current !== scene || state !== 'done') return;   // the player already moved on
       if (dayMode && last) { showSummary(); return; }
       var buttons = [];
       if (dayMode) buttons.push({ label: 'Dalej', icon: 'next', onClick: function () { openScene(currentIdx + 1); } });

@@ -443,6 +443,7 @@ body.menu-page::before {
 .card.c3 { --c: #A8EBD3; --cd: #36A783; }
 .card.c4 { --c: #D2C3FF; --cd: #8A6FE0; }
 .card.c5 { --c: #C5EB9F; --cd: #5FA83A; }
+.card.c6 { --c: #FFC7DA; --cd: #E0607E; }
 
 .menu-foot { text-align: center; margin-top: 22px; font-size: 18px; color: var(--brown-soft); }
 .menu-foot button {

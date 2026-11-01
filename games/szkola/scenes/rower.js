@@ -447,5 +447,6 @@
     S.otherSpeech.draw(ctx, BIKE_X + 30, GY - 172, { size: 22 });
   };
 
+  sc.debug = function () { return st; };   // for testing from the console
   S.register(sc);
 })();
