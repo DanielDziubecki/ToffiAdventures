@@ -1,6 +1,6 @@
 # Gry z chomiczką Toffi
 
-A collection of five browser games for a young child, starring Toffi the hamster.
+A collection of six browser games for a young child, starring Toffi the hamster.
 Everything the player sees is in Polish. The code uses plain HTML, CSS and JavaScript, with no build step and no image files.
 
 ## How to run
@@ -24,6 +24,7 @@ games/ucieczka/         2. Wielka ucieczka      (puzzle) – levels.js + rules.j
 games/policzki/         3. Pełne policzki       (catching)
 games/kolko/            4. Kółko Toffi          (clicker)
 games/ogrod/            5. Przygoda w ogrodzie  (platformer) – levels.js + game.js
+games/szkola/           6. Toffi idzie do szkoły (a school day) – school.js + scenes/*.js + game.js
 ```
 
 Every game draws on a fixed 960×540 stage. The stage scales to fit the screen, so it works on a desktop, a tablet or a phone held sideways.
@@ -39,6 +40,9 @@ Each `game.js` starts with a `CONFIG` block of commented numbers. You can change
 | Pełne policzki | `games/policzki/game.js` | `lives`, `cheekCapacity`, `speed`, `fullSlowdown`, `spawnStart`/`spawnMin`, `fallStart`/`fallMax`, `rampTime`, `badStart`/`badMax`, `heartEvery`, `catchWidth` |
 | Kółko Toffi | `games/kolko/game.js` | `UPGRADES` (cost = `base × growth^level`, `max` levels), `offlineMaxSeconds`, `bonusSeedEvery`. The effects are in `clickPower()` and `perSecond()`. |
 | Przygoda w ogrodzie | `games/ogrod/game.js` + `levels.js` | `lives`, `runSpeed`, `jumpPower`, `coyoteTime`, `jumpBuffer`, `invulnerableTime`, `hedgehogSpeed`, `crowSpeed`, `crowRange`, `starBerries`. Levels are ASCII maps in `levels.js`. Toffi jumps about 3 tiles high and 4 tiles far, so keep steps at 2 tiles or fewer. |
+| Toffi idzie do szkoły | `games/szkola/scenes/*.js` | Each scene file starts with its own settings: `MEALS` (breakfast), `LESSONS` (school bag), `CONFIG.speed` / `CONFIG.route` (bike ride: order and type of events), `ROUNDS` (maths: counting ranges and sum limits), `RUB_NEEDED` (how long to rub hands), `ROUNDS` / `LETTERS` (Polish letters and picture words). The order of the day is `ORDER` in `games/szkola/game.js`. |
+
+Spoken help: the school game reads tasks aloud using the browser's built-in Polish voice (speech synthesis), so a child who can't read yet can still play. If the device has no Polish voice, the game stays silent and the written text and pictures still work.
 
 Testing tip: every game exposes `window.__toffiGame` in the browser console. Its `CONFIG` can be changed while you play, for example `__toffiGame.CONFIG.lives = 9`.
 

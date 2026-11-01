@@ -11,7 +11,9 @@
        facing  : 1 (right) or -1 (left)
        cheeks  : 0..1 extra cheek puff (eating / full cheeks)
        round   : 0..1 makes the whole body rounder (full of food)
-       palette : 'toffi' | 'grey' | 'choco' | 'snow'  (friend hamsters)
+       palette : 'toffi' | 'grey' | 'choco' | 'snow' (friends) | 'mama'
+       hat     : 'bow' | 'helmet' (optional accessory)
+       hatColor: colour of the bow / helmet
        alpha   : 0..1 transparency
        shadow  : false to hide the ground shadow
        noBlink : true to disable automatic blinking
@@ -27,6 +29,7 @@
     toffi: { fur: '#F4A23C', furLight: '#FFC977', furDark: '#D8802C', belly: '#FFF2DC', cheek: '#FFFFFF', ear: '#F48FA9', paw: '#F8B6C4', nose: '#EE6F92', blush: 'rgba(255,120,150,0.35)' },
     grey:  { fur: '#A7A1B6', furLight: '#D2CDDD', furDark: '#827C94', belly: '#F5F2FA', cheek: '#FFFFFF', ear: '#F2A3B8', paw: '#F6C0CC', nose: '#E8789A', blush: 'rgba(255,120,150,0.3)' },
     choco: { fur: '#A06C4A', furLight: '#C79470', furDark: '#7C4F34', belly: '#F6E3CF', cheek: '#FFF7EE', ear: '#EE98AE', paw: '#F2B7C2', nose: '#E46C8E', blush: 'rgba(255,120,150,0.3)' },
+    mama:  { fur: '#E8963A', furLight: '#FFC171', furDark: '#C9772A', belly: '#FFF2DC', cheek: '#FFFFFF', ear: '#F48FA9', paw: '#F8B6C4', nose: '#EE6F92', blush: 'rgba(255,120,150,0.3)' },
     snow:  { fur: '#F3EEE6', furLight: '#FFFFFF', furDark: '#D8CFC2', belly: '#FFFFFF', cheek: '#FFFFFF', ear: '#F5A5B9', paw: '#F8C3CF', nose: '#EE7898', blush: 'rgba(255,120,150,0.35)' }
   };
 
@@ -270,6 +273,35 @@
       ctx.lineWidth = 1.6;
       ellipse(ctx, fx - 12, cy + H * 0.55, 6.5, 5); ctx.fill(); ctx.stroke();
       if (arms === 'rest') { ellipse(ctx, fx + 12, cy + H * 0.55, 6.5, 5); ctx.fill(); ctx.stroke(); }
+    }
+
+    // --- Accessories ---
+    if (o.hat === 'bow') {
+      var bx = cx - 14, by = cy - H * 0.92;
+      ctx.fillStyle = o.hatColor || '#FF6F9C';
+      ctx.strokeStyle = 'rgba(120,30,60,0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx - 15, by - 10); ctx.lineTo(bx - 15, by + 10); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx + 15, by - 10); ctx.lineTo(bx + 15, by + 10); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ellipse(ctx, bx, by, 5, 5); ctx.fill(); ctx.stroke();
+    } else if (o.hat === 'helmet') {
+      ctx.fillStyle = o.hatColor || '#7DBEFF';
+      ctx.strokeStyle = 'rgba(30,60,110,0.45)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(cx + 4, cy - H * 0.5, W * 0.86, H * 0.66, 0, Math.PI * 1.02, Math.PI * 1.98);
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+      // vent stripes
+      ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      for (var v = -1; v <= 1; v++) {
+        ctx.beginPath(); ctx.moveTo(cx + 4 + v * W * 0.3, cy - H * 1.05 + Math.abs(v) * 5); ctx.lineTo(cx + 4 + v * W * 0.36, cy - H * 0.62); ctx.stroke();
+      }
+      // strap on the side of the head
+      ctx.strokeStyle = 'rgba(30,60,110,0.55)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(cx - W * 0.78, cy - H * 0.52); ctx.lineTo(cx - W * 0.7, cy - H * 0.05); ctx.stroke();
     }
 
     ctx.restore();
