@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Toffi idzie do szkoły – Gry z chomiczką Toffi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/style.css">
+  <style>
+    /* Day plan: 6 step cards */
+    .plan-screen .panel { padding: 10px 30px 18px; }
+    .plan-screen .panel h1 { font-size: 44px; }
+    .plan-screen .panel p { font-size: 21px; margin: 2px 0 8px; }
+    .plan-grid { display: grid; grid-template-columns: repeat(3, 210px); gap: 12px; justify-content: center; margin: 4px 0 10px; }
+    .plan-step {
+      position: relative; display: flex; align-items: center; gap: 8px;
+      height: 84px; padding: 4px 10px; border: none; border-radius: 22px;
+      background: #FFF1D6; box-shadow: 0 5px 0 #E8C189; cursor: pointer; text-align: left;
+      color: var(--brown); touch-action: manipulation;
+    }
+    .plan-step:hover { transform: translateY(-2px); }
+    .plan-step:active { transform: translateY(4px); box-shadow: 0 1px 0 #E8C189; }
+    .plan-step.done { background: #DDF5EC; box-shadow: 0 5px 0 #9ED8C3; }
+    .plan-step img { width: 60px; height: 60px; flex: 0 0 auto; }
+    .plan-time { position: absolute; top: 4px; right: 12px; font-size: 15px; font-weight: 800; color: var(--orange-d); }
+    .plan-title { font-size: 19px; font-weight: 800; line-height: 1.05; }
+    .plan-check { position: absolute; bottom: 2px; right: 10px; font-size: 24px; color: #FFB91F; }
+
+    /* Sticker album */
+    .album { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 6px 0 12px; }
+    .sticker {
+      width: 104px; height: 124px; border-radius: 22px; background: #EFE6DA;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: inset 0 0 0 4px rgba(0,0,0,0.05);
+    }
+    .sticker span { font-size: 44px; font-weight: 800; color: #CDBCA8; }
+    .sticker.got { background: var(--c); box-shadow: 0 5px 0 rgba(90,58,41,0.2), inset 0 0 0 4px #FFFFFF; transform: rotate(-3deg); animation: sticker-in 0.5s cubic-bezier(.2,1.8,.5,1); }
+    .sticker.got:nth-child(even) { transform: rotate(3deg); }
+    .sticker img { width: 80px; height: 80px; }
+    .sticker-label { font-size: 14px; font-weight: 800; line-height: 1.05; text-align: center; padding: 0 4px; min-height: 28px; }
+    .album.single .sticker { width: 150px; height: 170px; }
+    .album.single .sticker img { width: 116px; height: 116px; }
+    .album.single .sticker-label { font-size: 18px; }
+    @keyframes sticker-in { from { transform: scale(0) rotate(-40deg); } }
+  </style>
+</head>
+<body class="game-page" style="background:#3B6B5A">
+  <div class="rotate-hint">Obróć urządzenie poziomo – będzie wygodniej!</div>
+  <div id="stage" class="stage"><canvas></canvas></div>
+
+  <script src="../../shared/sound.js"></script>
+  <script src="../../shared/toffi.js"></script>
+  <script src="../../shared/common.js"></script>
+  <script src="school.js"></script>
+  <script src="scenes/sniadanie.js"></script>
+  <script src="scenes/tornister.js"></script>
+  <script src="scenes/rower.js"></script>
+  <script src="scenes/matematyka.js"></script>
+  <script src="scenes/toaleta.js"></script>
+  <script src="scenes/polski.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

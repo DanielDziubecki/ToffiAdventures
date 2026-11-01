@@ -122,7 +122,11 @@
     splash: function () { noise(0.35, { freq: 900, slide: 300, vol: 0.4, filter: 'lowpass' }); },
     boing:  function () { tone(180, 0.3, { slide: 700, vol: 0.4 }); },
     friend: function () { arpeggio([659, 784, 988, 1319, 1568], 0.09, { vol: 0.35 }); },
-    tick:   function () { tone(1200, 0.03, { type: 'square', vol: 0.08 }); }
+    tick:   function () { tone(1200, 0.03, { type: 'square', vol: 0.08 }); },
+    bell:   function () { tone(2093, 0.25, { type: 'triangle', vol: 0.3 }); tone(2637, 0.3, { type: 'triangle', vol: 0.25, delay: 0.12 }); tone(2093, 0.35, { type: 'triangle', vol: 0.25, delay: 0.24 }); },
+    flush:  function () { noise(1.1, { freq: 300, slide: 1600, vol: 0.35, filter: 'lowpass' }); noise(0.6, { freq: 1800, slide: 400, vol: 0.2, delay: 0.5 }); },
+    water:  function () { noise(0.4, { freq: 2500, vol: 0.12, q: 0.6 }); },
+    note:   function () { var n = [523, 587, 659, 698, 784, 880]; tone(n[Math.floor(Math.random() * n.length)], 0.18, { type: 'triangle', vol: 0.25 }); }
   };
 
   function setMuted(m) {
